@@ -1,5 +1,5 @@
 For the files required for this analysis see [here](https://data.mendeley.com/datasets/89j7snbm2r/draft?a=7b3a1001-2727-4a31-8ae5-784337dcc582)
-Use Figure 9A as an example.
+Use Figure 9A as an example.  
 
 ```
 library(dplyr)
@@ -17,7 +17,7 @@ pIF <- ggplot(ORF_max_filt2, aes(x=ORF_Psit_pct_in_frame,color=category))+
   theme_classic()
 pIF
 ```
-
+Next calculate pairwise ks test and obtain comtiple comparison letters.  
 ```
 A=pairwise_ks_test(value = ORF_max_filt2$ORF_Psit_pct_in_frame,group = ORF_max_filt2$category)
 A
