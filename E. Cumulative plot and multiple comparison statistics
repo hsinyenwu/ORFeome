@@ -5,6 +5,7 @@ Use Figure 9A as an example.
 library(dplyr)
 library(DataScienceR)
 library(ggplot2)
+
 ORF_max_filt <- read.delim(file="~/Desktop/CTRL_v1/ORFs_max_filt_expressed",header=T,stringsAsFactors=F,sep="\t")
 table(ORF_max_filt$category)
 ORF_max_filt2 <- ORF_max_filt %>% filter(!is.na(category)) %>% filter(category!="Overl_dORF")
@@ -16,3 +17,18 @@ pIF <- ggplot(ORF_max_filt2, aes(x=ORF_Psit_pct_in_frame,color=category))+
   theme_classic()
 pIF
 ```
+
+```
+A=pairwise_ks_test(value = ORF_max_filt2$ORF_Psit_pct_in_frame,group = ORF_max_filt2$category)
+A
+library(multcompView)
+multcompLetters(A*factorial(4-1),
+                compare="<",
+                threshold=0.05,
+                Letters=letters,
+                reversed = FALSE)
+# ORFs_ccds    ncORFS      uORF      dORF 
+#      "a"        "b"       "c"      "bc" 
+```
+
+
