@@ -17,6 +17,8 @@ pIF <- ggplot(ORF_max_filt2, aes(x=ORF_Psit_pct_in_frame,color=category))+
   theme_classic()
 pIF
 ```
+![image](https://github.com/hsinyenwu/ORFeome/assets/4383665/732812e9-65df-4ca7-a101-feac58a57b05)
+
 Next calculate pairwise Kolmogorov–Smirnov test and obtain comtiple comparison letters.  
 ```
 A=pairwise_ks_test(value = ORF_max_filt2$ORF_Psit_pct_in_frame,group = ORF_max_filt2$category)
