@@ -18,7 +18,7 @@ rm(list=ls())
 # library(ggplot2)
 # library(clipr)
 # library(openxlsx)
-GTF_path <- "~/Desktop/CTRL_TPC/data/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
+GTF_path <- "~/xxx/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
 FA <- FaFile("~/Desktop/Leaky_scanning/TAIR10_chr_all_2.fas")
 txdb <- makeTxDbFromGFF(file = GTF_path,format="gtf", dataSource="Araport11",organism="Arabidopsis")
 exonByTx <- exonsBy(txdb, by="tx", use.names=T)
@@ -35,7 +35,7 @@ length(fiveUTR_ORFs) #28228
 uORF_length <- sum(width(fiveUTR_ORFs))
 fiveUTR_ORFs_seq <- extractTranscriptSeqs(FA,fiveUTR_ORFs)
 
-Ribo1=read.delim(file="~/Desktop/CTRL_v1/CTRL_expressed_P_sites_sort_count",header=F,stringsAsFactors=F,sep="\t")
+Ribo1=read.delim(file="~/xxx/CTRL_expressed_P_sites_sort_count",header=F,stringsAsFactors=F,sep="\t")
 colnames(Ribo1) <- c("count","chr","start","strand")
 
 Ribo1$end <- Ribo1$start
@@ -105,7 +105,7 @@ XAA <-function(x,y){
   DF
 }
 
-#dir.create("~/Desktop/CTRL_TPC/data/Rdata")
+#dir.create("~/xxx/Rdata")
 Length <- as.data.frame(table(uORF_length),stringsAsFactors = FALSE)
 Length$aa <- (as.numeric(Length$uORF_length)/3)-1
 length(Length$aa) #139
@@ -119,7 +119,7 @@ for(i in AA){
   #future_lapply
   B=future_lapply(seq_len(length(fiveUTR_ORFs_xaa)),function(x) XAA(x,y=i))
   names(B) <- names(fiveUTR_ORFs_xaa)
-  save(B,file=paste0("~/Desktop/CTRL_TPC/data/Rdata/Mar02_2023/2Max_isoform_0.5TPM_AA_",i,"_.RData"))
+  save(B,file=paste0("~/xxx/Rdata/Mar02_2023/2Max_isoform_0.5TPM_AA_",i,"_.RData"))
 }
 
 ####################################################################
@@ -148,7 +148,7 @@ TotalSites <- function(x,A){
 InFrameCountSites <- function(z){
   print(z)
   fiveUTR_ORFs_xaa <- fiveUTR_ORFs[uORF_length==(z+1)*3]
-  load(paste0("~/Desktop/CTRL_TPC/data/Rdata/2Max_isoform_0.5TPM_AA_",z,"_.RData")) #load B
+  load(paste0("~/xxx/Rdata/2Max_isoform_0.5TPM_AA_",z,"_.RData")) #load B
   InFrameC_AA <<- unlist(lapply(seq_len(length(B)), function(x) InFrameCounts(x,A=B)))
   TotalC_AA <<- unlist(lapply(seq_len(length(B)), function(x) TotalCounts(x,A=B)))
   
@@ -187,7 +187,7 @@ InFrameCountSiteDF <- do.call("rbind", InFrameCountSiteLists)
 unique(InFrameCountSiteDF$AA) #Those peptide length identified with TuORFs
 
 ###Kallisto with 2 max isoforms output, provide the tpm values
-Kallisto_2MaxIso_out <- read.delim(file="~/Desktop/CTRL_TPC/Kallisto01272023/2MaxIsoforms/abundance.tsv",header=T,stringsAsFactors=F,sep="\t")
+Kallisto_2MaxIso_out <- read.delim(file="~/xxx/abundance.tsv",header=T,stringsAsFactors=F,sep="\t")
 head(Kallisto_2MaxIso_out,10)
 Kallisto_2MaxIso_out$tx_id <- Kallisto_2MaxIso_out$target_id
 Kallisto_2MaxIso_out$gene_id <- substr(Kallisto_2MaxIso_out$tx_id,1,9)
@@ -248,13 +248,13 @@ for(i in unique(InFrameCountSiteDF$AA)){
   colnames(fiveUTR_ORFs_peptide_df) <- c("peptide_seq")
   fiveUTR_ORFs_peptide_df$ORF_id <- rownames(fiveUTR_ORFs_peptide_df)
   TuORF2c <- left_join(TuORF2b,fiveUTR_ORFs_peptide_df,by = "ORF_id")
-  saveRDS(TuORF2c,paste0("~/Desktop/CTRL_TPC/Tiny_uORF_data/2Max_isoform_0.5TPM_Length_",i,"aa_ORFs.RData"))
+  saveRDS(TuORF2c,paste0("~/xxx/2Max_isoform_0.5TPM_Length_",i,"aa_ORFs.RData"))
   TuORFs_df<- rbind(TuORFs_df,TuORF2c)
 }
 
 TuORFs_df$gene_id <- substr(TuORFs_df$tx_id,1,9)
-saveRDS(TuORFs_df,file="~/Desktop/CTRL_TPC/data/Rdata/uORF_gt2aa_Mar03-2023_10Ribo_50inFrame_30psite.RData")
-TuORFs_df <- readRDS("~/Desktop/CTRL_TPC/data/Rdata/uORF_gt2aa_Mar03-2023_10Ribo_50inFrame_30psite.RData")
+saveRDS(TuORFs_df,file="~/xxx/Rdata/uORF_gt2aa_Mar03-2023_10Ribo_50inFrame_30psite.RData")
+TuORFs_df <- readRDS("~/xxx/Rdata/uORF_gt2aa_Mar03-2023_10Ribo_50inFrame_30psite.RData")
 
 TuORFs_df2 <- TuORFs_df %>% 
   group_by(uORF_Ge_range,peptide_seq) %>% 
@@ -281,7 +281,7 @@ TuORFs_df3 <- TuORFs_df %>%
   as.data.frame()
 
 nrow(TuORFs_df3) #7058
-write.xlsx(TuORFs_df2,file ="~/Desktop/CTRL_TPC/Tables/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_6169_Mar3_2023.xlsx" )
-write.xlsx(TuORFs_df3,file ="~/Desktop/CTRL_TPC/Tables/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_7058_Mar3_2023_duplicated_uORF_not_removed.xlsx" )
+write.xlsx(TuORFs_df2,file ="~/xxx/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_6169_Mar3_2023.xlsx" )
+write.xlsx(TuORFs_df3,file ="~/xxx/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_7058_Mar3_2023_duplicated_uORF_not_removed.xlsx" )
 
 ```
