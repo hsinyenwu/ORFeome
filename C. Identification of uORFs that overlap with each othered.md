@@ -75,5 +75,5 @@ uORF_Overlaps_df4$tx_id <- sub("_.*","",uORF_Overlaps_df4$V1)
 uORF_Overlaps_df4$uORFs_overlapped <- paste(uORF_Overlaps_df4$V1,uORF_Overlaps_df4$V2,uORF_Overlaps_df4$V3,uORF_Overlaps_df4$V4,sep = ", ") 
 
 uORF_Overlaps_df <- rbind(uORF_Overlaps_df2[,3:5],uORF_Overlaps_df3[,4:6],uORF_Overlaps_df4[,5:7])
-write.xlsx(uORF_Overlaps_df,file = "~/Desktop/CTRL_TPC/Tables/TableS6_CPuORFs_stacking_1.xlsx")
+write.xlsx(uORF_Overlaps_df,file = "~/xxx/TableS6_CPuORFs_stacking_1.xlsx")
 ```
