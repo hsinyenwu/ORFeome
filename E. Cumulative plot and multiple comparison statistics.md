@@ -16,6 +16,7 @@ pIF <- ggplot(ORF_max_filt2, aes(x=ORF_Psit_pct_in_frame,color=category))+
   labs(tag = "Figure 9A") +
   theme_classic()
 pIF
+#save the plot as pdf
 ```
 ![image](https://github.com/hsinyenwu/ORFeome/assets/4383665/732812e9-65df-4ca7-a101-feac58a57b05)
 
@@ -32,5 +33,6 @@ multcompLetters(A*factorial(4-1),
 # ORFs_ccds    ncORFS      uORF      dORF 
 #      "a"        "b"       "c"      "bc" 
 ```
+The multcompLetters results were manually added to the plot with Adobe Illustrator.
 
 
