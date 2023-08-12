@@ -1,6 +1,6 @@
+Find overlapping translated uORFs. Here we only consider max expressed isoforms to avoid duplications.
+
 ```
-# Find overlapping translated uORFs
-#only for max expressed isoforms to avoid duplication
 rm(list=ls())
 library(dplyr)
 library(GenomicFeatures)
