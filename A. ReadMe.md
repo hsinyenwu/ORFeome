@@ -1,3 +1,4 @@
+Here are the R code for analyzing the Ribo-seq, RiboTaper and dual-luciferase assay results. 
 A. Ribo-seq analysis for Arabidopsis 7-day old seedlings  
 B1. Identification of minimum uORFs with CiPS    
 B2: Identification of other uORFs with CiPS  
