@@ -62,7 +62,6 @@ Gene_description <- read.xlsx("~/xxx/TAIR_gene_description_w_gene_id_Dec2020.xls
 Iso2_ginfo <- dplyr::left_join(Iso2,Gene_description,by="gene_id")
 head(Iso2_ginfo)
 list_of_datasets <- list("A_2_isofroms" = dfIso, "B_Iso_TuORFs" = Iso2_ginfo)
-# write.xlsx(list_of_datasets,file="~/xxx/TableS7_594_isoform_specific_TuORFs_test.xlsx")
 write.xlsx(list_of_datasets,file="~/xxx/TableS7_594_isoform_specific_TuORFs.xlsx")
 
 ```
