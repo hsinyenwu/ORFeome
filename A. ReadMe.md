@@ -6,6 +6,5 @@ D. Identification of uORFs that are regulated by alternative splicing in our exp
 E. Cumulative plot and multiple comparison Kolmogorov–Smirnov test   
 F. Box plot and Wilcoxon rank-sum test  
 
-The gtf and other files required for this analysis is available at 
-https://data.mendeley.com/datasets/89j7snbm2r/draft?a=7b3a1001-2727-4a31-8ae5-784337dcc582  
+The gtf and other files required for this analysis is available [here](https://data.mendeley.com/datasets/89j7snbm2r/draft?a=7b3a1001-2727-4a31-8ae5-784337dcc582)  
 For visualizing individual genes, please see: https://github.com/hsinyenwu/RiboPlotR
