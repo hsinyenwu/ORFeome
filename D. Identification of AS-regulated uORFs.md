@@ -1,8 +1,7 @@
-
+Find isoform-specific uORFs.
 ```
-#Find isoform-specific uORFs
 #1: Find which gene has more than 1 isoform in the gtf
-GTF_path <- "~/Desktop/CTRL_TPC/data/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
+GTF_path <- "~/xxx/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
 FA <- FaFile("~/Desktop/Leaky_scanning/TAIR10_chr_all_2.fas")
 txdb <- makeTxDbFromGFF(file = GTF_path,format="gtf", dataSource="Araport11",organism="Arabidopsis")
 exonByTx <- exonsBy(txdb, by="tx", use.names=T)
@@ -20,10 +19,10 @@ nrow(Iso_specific_TuORFs_df2) #5281
 # Select only the genes with more than one isoform
 Iso_specific_TuORFs_df3 <- Iso_specific_TuORFs_df2 %>% filter(gene_id%in%df4$num_tx_gene)
 nrow(Iso_specific_TuORFs_df3) #727
-write.xlsx(Iso_specific_TuORFs_df3,file ="~/Desktop/CTRL_TPC/Tables/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_727_isoform_specific.xlsx" )
+write.xlsx(Iso_specific_TuORFs_df3,file ="~/xxx/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_727_isoform_specific.xlsx" )
 
 #Load 5'UTR info
-# GTF_path <- "~/Desktop/CTRL_TPC/data/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
+# GTF_path <- "~/xxx/Araport11_20181206_max2_expressed_isoform_TPM0.5_rm_diff_CDSstart.gtf"
 # FA <- FaFile("~/Desktop/Leaky_scanning/TAIR10_chr_all_2.fas")
 # txdb <- makeTxDbFromGFF(file = GTF_path,format="gtf", dataSource="Araport11",organism="Arabidopsis")
 fiveUTR <- fiveUTRsByTranscript(txdb, use.names=T)
@@ -50,7 +49,7 @@ for(i in 1:2571){
 Gene_Tx_list2 <- Gene_Tx_list[Splicing_same==FALSE]
 length(Gene_Tx_list2) #1140
 
-Iso <- read.xlsx("~/Desktop/CTRL_TPC/Tables/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_727_isoform_specific.xlsx")
+Iso <- read.xlsx("~/xxx/TuORFs_2max_isoforms_gl_10_inFrame_reads_50inFrame_30sites_727_isoform_specific.xlsx")
 Iso2 <- Iso %>% filter(gene_id %in% names(Gene_Tx_list2))
 nrow(Iso2) #594
 nrow(Iso) #727
@@ -59,11 +58,11 @@ library(stringr)
 dfIso <- df %>% filter(num_tx_gene %in% Iso2$gene_id) %>% group_by(num_tx_gene) %>% dplyr::summarize(tx_isoforms = str_c(num_tx, collapse = ", ")) %>% as.data.frame()
 head(dfIso)
 
-Gene_description <- read.xlsx("~/Desktop/TAIR_gene_description_w_gene_id_Dec2020.xlsx",sheet=1)
+Gene_description <- read.xlsx("~/xxx/TAIR_gene_description_w_gene_id_Dec2020.xlsx",sheet=1)
 Iso2_ginfo <- dplyr::left_join(Iso2,Gene_description,by="gene_id")
 head(Iso2_ginfo)
 list_of_datasets <- list("A_2_isofroms" = dfIso, "B_Iso_TuORFs" = Iso2_ginfo)
-# write.xlsx(list_of_datasets,file="~/Desktop/CTRL_TPC/Tables/TableS7_594_isoform_specific_TuORFs_test.xlsx")
-write.xlsx(list_of_datasets,file="~/Desktop/CTRL_TPC/Tables/TableS7_594_isoform_specific_TuORFs.xlsx")
+# write.xlsx(list_of_datasets,file="~/xxx/TableS7_594_isoform_specific_TuORFs_test.xlsx")
+write.xlsx(list_of_datasets,file="~/xxx/TableS7_594_isoform_specific_TuORFs.xlsx")
 
 ```
