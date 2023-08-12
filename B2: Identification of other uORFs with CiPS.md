@@ -6,7 +6,7 @@ Identification of other uORFs with CiPS
 # Section 2: Find translated >= 2aa uORFs
 # Map Ribo-seq reads to each length of uORFs
 # From 2AA to more
-rm(list=ls())
+#rm(list=ls())
 # library(dplyr)
 # library(GenomicFeatures)
 # library(GenomicRanges)
