@@ -1,7 +1,7 @@
 Plot all RiboTaper uORFs
 For example:
 <img width="666" alt="image" src="https://github.com/hsinyenwu/ORFeome/assets/4383665/bb9fc9e2-78d3-42c1-a9be-231cbd438d54">  
-Load all necessary packages:
+Load packages:
 ```
 ###################################
 # Step 1: Generate 5' UTR gtf files for RiboTaper defined uORFs
@@ -11,11 +11,10 @@ install_github("hsinyenwu/RiboPlotR@v2019a")
 library(RiboPlotR)
 library(GenomicRanges)
 library(GenomicFeatures)
-library(Rsamtools)
 library(ORFik)
 library(rtracklayer)
 ```
-### Step 1:
+### Step 1: Generate 5' UTR gtf files for RiboTaper defined uORFs
 ```
 FA <- FaFile("~/Desktop/Leaky_scanning/TAIR10_chr_all_2.fas")
 txdb <- makeTxDbFromGFF("~/Desktop/CTRL_v1/Araport11+CTRL_20181206.gtf",format="gtf", dataSource="Araport11",organism="Arabidopsis")
@@ -44,7 +43,7 @@ for(i in 1:nrow(Exp_uORFs)){
 }
 ```
 
-### Step 2:
+### Step 2: Plot genes with uORFs
 ```
 Exp_uORFs$isoform <- gsub(".*\\.","",Exp_uORFs$transcript_id)
 gene.structure(annotation="~/Desktop/CTRL_v1/Araport11+CTRL_20181206.gtf",format="gtf",dataSource="Araport",organism="Arabidopsis thaliana")
