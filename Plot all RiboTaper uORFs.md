@@ -1,6 +1,6 @@
 Plot all RiboTaper uORFs
 For example:
-<img width="966" alt="image" src="https://github.com/hsinyenwu/ORFeome/assets/4383665/bb9fc9e2-78d3-42c1-a9be-231cbd438d54">
+<img width="766" alt="image" src="https://github.com/hsinyenwu/ORFeome/assets/4383665/bb9fc9e2-78d3-42c1-a9be-231cbd438d54">
 Load all necessary packages:
 ```
 ###################################
