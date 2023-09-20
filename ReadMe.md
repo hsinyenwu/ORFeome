@@ -7,5 +7,6 @@ D. Identification of uORFs that are regulated by alternative splicing in our exp
 E. Cumulative plot and multiple comparison Kolmogorov–Smirnov test   
 F. Box plot and Wilcoxon rank-sum test  
 
+RNA-seq and Ribo-seq data: [Here](https://www.ncbi.nlm.nih.gov/geo) under accession number: GSE183264
 The gtf and other files required for this analysis is available [Here](https://data.mendeley.com/datasets/89j7snbm2r/draft?a=7b3a1001-2727-4a31-8ae5-784337dcc582)  
 For visualizing individual genes, please use [RiboPlotR](https://github.com/hsinyenwu/RiboPlotR)
