@@ -319,6 +319,87 @@ tail(gtf2_s3,60)
 write.table(gtf2_s3[,1:9],"/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_expressed.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
 ```
 Step 7.
+Run STAR again with the new annotation for RNA-seq.  
+Run STAR (1st time) with the new annotation for Ribo-seq.  
+
+```
+# With STAR/2.6.0c
+# STAR index for Ribo-seq
+# Path to folder for the output: newINDEXRibo
+STAR --runThreadN 12 \
+--runMode genomeGenerate \
+--genomeDir $newINDEXRibo \
+--genomeFastaFiles $FASTA \
+--sjdbGTFfile $GTF \
+--sjdbOverhang 34 \
+
+# STAR mapping for Ribo-seq
+STAR --runThreadN 10 \
+     --genomeDir $newINDEXRibo \
+     --alignEndsType EndToEnd \
+     --readFilesCommand zcat \
+     --readFilesIn $INPUT/$DATA.noContam4.fastq.gz \
+     --alignIntronMax 5000 \
+     --alignIntronMin 15 \
+     --outFilterMismatchNmax 2 \
+     --outFilterMultimapNmax 20 \
+     --outFilterType BySJout \
+     --alignSJoverhangMin 4 \
+     --alignSJDBoverhangMin 1 \
+     --outSAMtype BAM SortedByCoordinate \
+     --quantMode TranscriptomeSAM \
+     --outSAMmultNmax 1 \
+     --outMultimapperOrder Random \
+     --outFileNamePrefix "star_"$DATA"_" \
+```
+```
+# STAR mapping for RNA-seq
+# RNA-seq index (newINDEXRNA) can be created by above code and the new gtf
+STAR --runThreadN 10 \
+     --genomeDir $newINDEXRNA \
+     --readFilesCommand zcat \
+     --readFilesIn $INPUT/$DATA.r1.fastq.gz $INPUT/$DATA.r2.fastq.gz \
+     --alignIntronMax 5000 \
+     --alignIntronMin 15 \
+     --outFilterMismatchNmax 2 \
+     --outFilterMultimapNmax 20 \
+     --outFilterType BySJout \
+     --alignSJoverhangMin 2 \
+     --alignSJDBoverhangMin 1 \
+     --outSAMtype BAM SortedByCoordinate \
+     --quantMode TranscriptomeSAM \
+     --outSAMmultNmax 1 \
+     --outMultimapperOrder Random \
+     --outFileNamePrefix "star_"$DATA"_" \
+
+```
+Step 8.  
+Make RiboTaper annotation  
+```
+#With R/3.4.3-X11-20171023, RiboTaper_v1.3, bedtools code from RiboTaper website
+BEDTOOL=/xxx/bedtools_dir
+
+# The code should look like:
+# create_annotation_files.bash <gencode_gtf_file> <genome_fasta_file(indexed)> <use_ccdsid?> <use_appris?> <dest_folder> <bedtools_path> <scripts_dir>
+
+$xxx/RiboTaper_v1.3/scripts/create_annotations_files.bash $GTF $FASTA false false $OUTPUT $BEDTOOL $xxx/RiboTaper_v1.3/scripts/
+```
+Step 9.  
+Merge output and run RiboTaper  
+```
+#SAMtools/1.8
+# next merge (with samtools merge) the RNA-seq bam files to one bam file and merge Ribo-seq bam files to another bam file. Sort those files to genome coordinates (with samtools sort) and create the index (with samtools index)
+simplified example code:
+#Merge D1, D2, D3...files
+samtools merge -f $INPUT_ribo/ribo_CTRL_merged.bam $INPUT_ribo/D1/star*sortedByCoord.out.bam $INPUT_ribo/D2/star*sortedByCoord.out.bam ...
+#Sort by genome coordinates
+samtools sort -o $INPUT_ribo/ribo_CTRL_merged2.bam $INPUT_ribo/ribo_CTRL_merged.bam
+#Change name
+mv $INPUT_ribo/ribo_CTRL_merged2.bam $INPUT_ribo/ribo_CTRL_merged.bam
+#Create index
+samtools index $INPUT_ribo/ribo_CTRL_merged.bam
+```
+Run RiboTaper
 ```
 ```
 
