@@ -226,7 +226,7 @@ gtf_b <- rbind(Araport11_gtf,MS_new_gtf)
 write.table(gtf_b,"/xxx/Araport11+CTRL_20181206.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
 ```
 Step 6:
-Map the RNA-seq data again as above. Run RSEM and only use isoforms with > 0 TPM.
+Map the RNA-seq data again as above. Run RSEM (quantify gene expression in gene and isoform levels) and only use isoforms with > 0 TPM.
 ```
 # Here only shows the RSEM step
 # With RSEM/1.3.1,STAR/2.6.0c
@@ -250,6 +250,7 @@ rsem-prepare-reference \
 $FASTA \
 RNA
 ```
+Next, run RSEM
 ```
 # Run RSEM
 # DATA is the sample variable  
@@ -317,4 +318,8 @@ tail(gtf2_s3,60)
 #Araport11+CTRL_20181206_TPM1.gtf is for TPM > 1
 write.table(gtf2_s3[,1:9],"/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_expressed.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
 ```
+Step 7.
+```
+```
+
 
