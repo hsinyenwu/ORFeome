@@ -115,7 +115,7 @@ samtools index "star_"$DATA"_"Aligned.sortedByCoord.out.bam
 rm "star_"$DATA"_"Aligned.toTranscriptome.out.bam
 ```
 
-Step 4:
+Step 4:  
 StringTie to assemble transcripts for each file.  
 ```
 # With StringTie/1.3.5
@@ -135,143 +135,10 @@ echo "### Compare transcripts with the annoation ###"
 # xxx path to the gffcompare code
 /xxx/gffcompare-0.11.2/gffcompare -V -r $GTF -o CTRL_Araport11 CTRL_Araport11_merged.gtf #this creates CTRL_Araport11.annotated.gtf
 ```
-Nest, select the i, x, y, o, u, s class from the newly assembled gtf
-```
-Last login: Wed Sep 20 09:19:52 on ttys000
 
-The default interactive shell is now zsh.
-To update your account to use zsh, please run `chsh -s /bin/zsh`.
-For more details, please visit https://support.apple.com/kb/HT208050.
-(base) Wus-MacBook-Pro-3:Proteomics wu$ ssh -XY larrywu@hpcc.msu.edu
-Last login: Fri Aug 25 10:36:39 2023 from 149.102.252.46
-S                 __ _____ _____ ____      __  __ ____  _____ _____              
-                /_// ___// ___// _  ;    / /_/ // _  ;/ ___// ___/              
-               / // /__ / _/_ / _,.'    / __  // _,.'/ /__ / /__                
-              /_//____//____//_//_!    /_/ /_//_/   /____//____/                
-________________________________________________________________________________
-                                                                                
-          Welcome to Michigan State's High Performance Computing Center         
-                    ** Unauthorized access is prohibited **                     
-________________________________________________________________________________
-                                                                                
-    For GPU development please use green nodes.                                 
-                                                                                
-          Development Nodes (usage)                                             
-      --------------------------------                                          
-S    dev-amd20-v100 (low) dev-amd20 (low)                             
-    dev-intel14-k20 (low) dev-intel14 (low)                                  
-    dev-intel16-k80 (low) dev-intel16 (low)                                                               
-    dev-intel18 (low)                                                                                                  
-                                                                                
-      |--------------------------------------------------------------------------------------| 
-      |                                                                                      | 
-      |   New blog and documenation sites:                                                   | 
-      |     https://docs.icer.msu.edu                                                        | 
-      |     https://blog.icer.msu.edu                                                        | 
-      |                                                                                      | 
-      |--------------------------------------------------------------------------------------| 
-                                                                               
-ssh dev-amd20________________________________________________________________________________
-[larrywu@gateway-03 ~]$ ssh dev-amd20
-Last login: Wed Sep 20 09:20:06 2023 from gateway-01.dmz
-
-===
-Please note that processes on development nodes are limited to two hours of 
-CPU time; for longer-running jobs, please submit to the queue.
-
-Development nodes are a shared system; for information about performance 
-considerations please see: https://docs.icer.msu.edu/development_nodes/
-===
-
-[larrywu@dev-amd20 ~]$ cd ABA
-[larrywu@dev-amd20 ABA]$ cd code/
-[larrywu@dev-amd20 code]$ ll
-total 1005
--rw-r----- 1 larrywu biochem     740 Dec  6  2018 1.0_bowtie2_index.sb
--rwxr-x--- 1 larrywu biochem     361 Dec  6  2018 1.1a_RNA_preprocessing_submission.sh
--rw-r----- 1 larrywu biochem    1886 Dec  6  2018 1.1_RNA_preprocessing.sb
--rwxr-x--- 1 larrywu biochem     355 Dec  6  2018 1.2a_ribo_preprocessing_submission.sh
--rw-r----- 1 larrywu biochem    1841 Dec  6  2018 1.2_ribo_preprocessing.sb
--rw-r----- 1 larrywu biochem    1101 Dec 11  2018 1.5_STAR_index_Araport.sb
--rw-r----- 1 larrywu biochem    2167 Dec 11  2018 2.0_RNA_mapping.sb
--rwxr-x--- 1 larrywu biochem     645 Dec  7  2018 2.0_RNA_mapping_submission.sh
--rw-r----- 1 larrywu biochem    1100 Dec 11  2018 2.1_gtf_merge_compare.sb
--rw-r----- 1 larrywu biochem     565 Dec 11  2018 3.0a_Rscript_gtf_processing.sb
--rw-r----- 1 larrywu biochem    3724 Dec 11  2018 3.0_stringtie_merged_gtf_analysis.R
--rw-r----- 1 larrywu biochem    1313 Dec 11  2018 3.1a_Index_Kallisto_RNAseq.sb
--rw-r----- 1 larrywu biochem    1013 Dec 11  2018 3.1b_Quant_Kallisto_RNAseq.sb
--rwxr-x--- 1 larrywu biochem     292 Dec 11  2018 3.1b_Quant_Kallisto_submission.sh
--rw-r----- 1 larrywu biochem    1149 Dec 11  2018 3.1k_RSEM_RNA_index.sb
--rw-r----- 1 larrywu biochem    1033 Dec 11  2018 3.1m_RSEM_RNA_quant.sb
--rwxr-x--- 1 larrywu biochem     285 Dec 11  2018 3.1m_RSEM_RNA_quant_submission.sh
--rw-r----- 1 larrywu biochem    4415 Dec 12  2018 3.1n_get_highly_expressed_isoforms_and_make_gtf.R
--rw-r----- 1 larrywu biochem    1326 Dec 12  2018 3.2a_ribotaper_annotation.sb
--rw-r----- 1 larrywu biochem    1562 Dec 12  2018 3.3a_STAR_index_Araport.sb
--rw-r----- 1 larrywu biochem    1544 Dec 12  2018 3.3b_ribo_mapping.sb
--rw-r----- 1 larrywu biochem    1527 Dec 12  2018 3.3b_RNA_mapping.sb
--rwxr-x--- 1 larrywu biochem     865 Dec 12  2018 3.3b_RNA_ribo_mapping_submission.sh
--rwxr-x--- 1 larrywu biochem     265 Dec 12  2018 3.3c_merge_submission.sh
--rw-r----- 1 larrywu biochem    1164 Dec 12  2018 3.3c_ribo_ABA60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1329 Dec 12  2018 3.3c_ribo_ABA60+DMSO60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1171 Dec 12  2018 3.3c_ribo_DMSO60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1138 Dec 12  2018 3.3c_RNA_ABA60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1308 Dec 12  2018 3.3c_RNA_ABA60+DMSO60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1215 Dec 12  2018 3.3c_RNA_DMSO60_bam_merge.sb
--rw-r----- 1 larrywu biochem    1420 Dec 13  2018 3.4_ABA_RiboTaper_template_20181206.sb
--rw-r----- 1 larrywu biochem    1328 Dec 12  2018 3.4b_ABA60+DMSO60_RiboTaper_20181206.sb
--rw-r----- 1 larrywu biochem    1528 Dec 14  2018 3.4c_ABA60+DMSO60_RiboTaper_old_node_20181206.sb
--rwxr-x--- 1 larrywu biochem     351 Dec 12  2018 3.4_RiboTaper_submission_20181206.sh
--rw-r----- 1 larrywu biochem     116 Dec  7  2018 3.6_command_line_merge_P_sites_all.txt
--rw-r----- 1 larrywu biochem    2477 Dec  7  2018 4.0b_Index+Quantfy_Kallisto_tx.sb
--rw-r----- 1 larrywu biochem    1141 Nov 26  2018 5.1c_Tomato_ribo_CDS_quant.sb
--rw-r----- 1 larrywu biochem    2462 Dec 26  2018 6.0_Index+Quant_Ctrl+ABA_CDS_Kallisto.sb
--rw-r----- 1 larrywu biochem    1548 Dec 11  2018 old_3.1_Index+Quantfy_Kallisto_tx.sb
-drwxr-x--- 2 larrywu biochem   16384 Dec 14  2020 out
--rw-r----- 1 larrywu biochem     267 Dec 12  2018 slurm-3713058.out
--rw-r----- 1 larrywu biochem     267 Dec 12  2018 slurm-3713089.out
--rw-r----- 1 larrywu biochem   28365 Dec 13  2018 slurm-3725903.out
--rw-r----- 1 larrywu biochem   28365 Dec 13  2018 slurm-4173534.out
--rw-r----- 1 larrywu biochem   28371 Dec 14  2018 slurm-4280714.out
--rw-r----- 1 larrywu biochem    5220 Dec 14  2018 slurm-4329883.out
--rw-r----- 1 larrywu biochem   45044 Dec 26  2018 slurm-5607405.out
--rw-r----- 1 larrywu biochem   32100 Dec 26  2018 slurm-5608694.out
--rw-r----- 1 larrywu biochem    1903 Dec  7  2018 Test_1.3_Index+Quantfy_Kallisto_tx.sb
--rw-r----- 1 larrywu biochem 2757472 Jan 31  2019 test.txt
-drwxr-x--- 2 larrywu biochem    8192 Dec 12  2018 unused_code
-[larrywu@dev-amd20 code]$ vi 1.0_bowtie2_index.sb
-[larrywu@dev-amd20 code]$ vi 1.0_bowtie2_index.sb
-[larrywu@dev-amd20 code]$ cd /mnt/home/larrywu/CTRL_arabidopsis/code_TPM0.25/3.0_stringtie_merged_gtf_analysis.R
--bash: cd: /mnt/home/larrywu/CTRL_arabidopsis/code_TPM0.25/3.0_stringtie_merged_gtf_analysis.R: No such file or directory
-[larrywu@dev-amd20 code]$ vi 3.0_stringtie_merged_gtf_analysis.R
-
-  gene_V4 <- min(mRNA$V4)
-  gene_V5 <- max(mRNA$V5)
-  gene <- mRNA[1,]
-  gene$V3 <-  "gene"
-  gene$V4 <- gene_V4
-  gene$V5 <- gene_V5
-  gene$V9 <- paste0("gene_id \"",x$gene_id[1],"\"; gene_biotype \"ncRNA\"; class_code ",x$class_code[1],";")
-  rbind(gene,x)[,1:9]
-}
-
-# load dataframe from known genes
-Araport11_gtf <- read.delim("/xxx/Araport11_20181206.gtf",header=F,sep="\t",stringsAsFactors = F,quote="",skip=0)
-
-# data.frame for novel genes
-MS_gtf2 <- lapply(MS_gtf_list,function(x) gene_rows(x))
-
-# Dataframe from MS_gtf
-MS_new_gtf <- do.call("rbind", MS_gtf2)
-nrow(MS_new_gtf) #17596
-MS_new_gtf[which(MS_new_gtf$V3=="transcript"),3] <- "mRNA"
-
-# Combine new and original gtfs
-gtf_b <- rbind(Araport11_gtf,MS_new_gtf)
-
-# Save the gtf file
-write.table(gtf_b,"/xxx/Araport11+CTRL_20181206.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
-```
-Step 5: 
+Step 5:   
+Next, select the i, x, y, o, u, s class from the newly assembled gtf  
+Here is just an example, you can select the classes according to analysis needs.
 ```
 library(dplyr)
 rm(list=ls())
@@ -356,7 +223,37 @@ MS_new_gtf[which(MS_new_gtf$V3=="transcript"),3] <- "mRNA"
 gtf_b <- rbind(Araport11_gtf,MS_new_gtf)
 
 # Save the gtf file
-write.table(gtf_b,"/xxx/Araport11+CTRL_ixyous_20181206.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
+write.table(gtf_b,"/xxx/Araport11+CTRL_20181206.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
 ```
-  
+Step 6:
+Map the RNA-seq data again as above. Run RSEM and only use isoforms with > 0 TPM.
+```
+# Here only shows the RSEM step
+# With RSEM/1.3.1,STAR/2.6.0c
+# Create RSEM index
+newINDEX=/xxx/RSEM_RNA_index
+FASTA=/xxx/TAIR10_chr_all_2.fas #Watch out how the chromosome number is named! Here is 0, 1, 2, ...
+GTF=/xxx/Araport11+CTRL_20181206.gtf
+
+###############
+## RNA index ##
+###############
+
+# Generate new RNA index with updated gtf for RSEM
+echo "Generate new index with updated gtf for RSEM"
+
+mkdir -p $newINDEX
+cd $newINDEX
+
+rsem-prepare-reference \
+--gtf $GTF \
+--star --star-path /opt/software/STAR/2.6.0c-foss-2018a/bin \
+--star-sjdboverhang 99 \
+-p 8 \
+$FASTA \
+RNA
+```
+```
+# Run RSEM
+```
 
