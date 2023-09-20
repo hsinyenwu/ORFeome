@@ -230,14 +230,11 @@ Map the RNA-seq data again as above. Run RSEM and only use isoforms with > 0 TPM
 ```
 # Here only shows the RSEM step
 # With RSEM/1.3.1,STAR/2.6.0c
-# Create RSEM index
+# Create RSEM index file
+
 newINDEX=/xxx/RSEM_RNA_index
 FASTA=/xxx/TAIR10_chr_all_2.fas #Watch out how the chromosome number is named! Here is 0, 1, 2, ...
 GTF=/xxx/Araport11+CTRL_20181206.gtf
-
-###############
-## RNA index ##
-###############
 
 # Generate new RNA index with updated gtf for RSEM
 echo "Generate new index with updated gtf for RSEM"
@@ -255,5 +252,69 @@ RNA
 ```
 ```
 # Run RSEM
+# DATA is the sample variable  
+IPNUT_RNA=/xxx/STAR2
+OUTNUT_RNA=/xxx/RSEM_Whole_Tx
+INDEX_RNA=/xxx/RSEM_RNA_index
+
+rsem-calculate-expression \
+ --paired-end --bam --no-bam-output -p 10 --time \
+ --strandedness reverse \
+ --alignments $IPNUT_RNA/$DATA/"star_"$DATA"_"Aligned.toTranscriptome.out.bam $INDEX_RNA/RNA $DATA
+```
+Next use R to select expressed isoforms and make a new gtf file.
+```
+#Load RSEM output files
+D1 <- read.delim("/xxx/D1.isoforms.results",header=T,sep="\t",stringsAsFactors = F, quote="")
+#Also load D2, D3, D5,D6,D7 files 
+
+TPM <- data.frame(gene_id=D1$gene_id, transcript_id=D1$transcript_id, D1_TPM=as.numeric(D1$TPM), D2_TPM=as.numeric(D2$TPM), D3_TPM=as.numeric(D3$TPM), D5_TPM=as.numeric(D5$TPM), D6_TPM=as.numeric(D6$TPM), D7_TPM=as.numeric(D7$TPM),stringsAsFactors=F)
+TPM$TPM_mean = rowMeans(TPM[,3:8])
+
+library(dplyr)
+#Select genes with > 0 TPM
+TPM2 = TPM %>% filter(TPM$TPM_mean>0)
+nrow(TPM2) #46826 
+length(unique(TPM2$gene_id)) #29439
+#How many new transcripts are over TPM 0
+sum(grepl("MSTRG",TPM2$gene_id)) #3314
+
+gtf0 <-read.delim("/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206.gtf",header=F,sep="\t",stringsAsFactors = F,quote = "")
+gtf <- gtf0 %>% filter(V3 %in% c("mRNA","exon","CDS"))
+gtf$tx_id <- unname(sapply(gtf$V9,function(x)  gsub("\"","",sub(pattern = "transcript_id ",replacement = "",grep("transcript_id",unlist(strsplit(x,";")),value=T)))))
+gtf$tx_id <-gsub(" ", "", gtf$tx_id, fixed = TRUE)
+gtf$V9[which(gtf$V3=="CDS")] <- paste0(gtf$V9[which(gtf$V3=="CDS")], " gene_biotype \"protein_coding\";")
+
+gtf$biotype <- unname(sapply(gtf$V9,function(x)  gsub("\"","",sub(pattern = " gene_biotype ",replacement = "",grep(" gene_biotype ",unlist(strsplit(x,";")),value=T)))))
+head(gtf)
+
+nrow(gtf) #665559
+gtf2 <- gtf %>% filter(tx_id %in% TPM2$transcript_id)
+nrow(gtf2) #572270
+gtf2$gene_id <- sub("^(.*)[.].*", "\\1", gtf2$tx_id)
+head(gtf2,60)
+gtf2_s <- split(gtf2,gtf2$gene_id)
+
+gene_V9 <- function(x) {
+        gene_row=x[which(x$V3=="mRNA")[1],]
+        gene_row$V3="gene"
+        gene_row$V4=min(x[which(x$V3=="mRNA"),4])
+        gene_row$V5=max(x[which(x$V3=="mRNA"),5])
+        gene_row$V9=paste0("gene_id \"", x$gene_id[1],"\"; ","gene_biotype \"",x$biotype[1],"\";")
+        rbind(gene_row,x)}
+
+
+gtf2_s2 <- lapply(gtf2_s, function(x) gene_V9(x))
+head(gtf2_s2,2)
+tail(gtf2_s2,2)
+gtf2_s3 <- bind_rows(gtf2_s2)
+nrow(gtf2_s3) #601709
+#There was no space before "transcript_biotype",fix it
+gtf2_s3$V9 <- gsub("transcript_biotype"," transcript_biotype",gtf2_s3$V9)
+tail(gtf2_s3,60)
+#Araport11+CTRL_20181206.gtf is for the isoform TPM > 0.5
+#write.table(gtf2_s3[,1:9],"/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_TPM0.5.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
+#Araport11+CTRL_20181206_TPM1.gtf is for TPM > 1
+write.table(gtf2_s3[,1:9],"/mnt/home/larrywu/CTRL_arabidopsis/data/assembledGTF/Araport11+CTRL_20181206_expressed.gtf",quote = F, row.names = FALSE,col.names = FALSE, sep="\t")
 ```
 
