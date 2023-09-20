@@ -401,6 +401,15 @@ samtools index $INPUT_ribo/ribo_CTRL_merged.bam
 ```
 Run RiboTaper
 ```
+TAPER: Path to RiboTaper code e.g., /xxx/Software/RiboTaper_v1.3/scripts
+RNA, RIBO: Path to the merged RNA and Ribo-seq folder
+ANNO: Path to the RiboTaper annotation folder (created above)
+BED: Path to the bedtools
+
+#RiboTaper Usage: ./Ribotaper.sh <Ribo_bamfile> <RNA_bamfile> <annotation_dir> <comma-sep_read_lenghts_ribo> <comma-sep_cutoffs> <scripts_dir> <bedtools_dir>  <n_cores> 
+
+$TAPER/Ribotaper.sh $RIBO/ribo_CTRL_merged.bam $RNA/RNA_CTRL_merged.bam $ANNO 24,25,26,27,28 8,9,10,11,12 $TAPER $BED 8
+
 ```
 
 
