@@ -1,3 +1,5 @@
+<img width="651" alt="image" src="https://github.com/hsinyenwu/ORFeome/assets/4383665/57c5a9d7-b78a-4af2-a646-9790bf2fa99a">
+
 Step 1: Create Bowtie2 index for removing contamination sequences (rRNA, tRNA, snRNA and snoRNA  
 ```
 #With Bowtie2/2.3.4
